@@ -2,27 +2,27 @@ class Database:
     def __init__(self):
         self.storage = {} 
 
-    def counts(self, value):
+    def counts(self, value: str) -> str:
         return len(self.find(value))
 
-    def find(self, value):
+    def find(self, value: str) -> list:
         try:
             return self.__reverse_storage()[value]
         except KeyError:
             return list()
 
-    def get(self, key):
+    def get(self, key: str) -> str:
         try:
             return self.storage[key] 
         except KeyError:
             return 'NULL'
 
-    def set(self, key, value):
+    def set(self, key: str, value: str) -> None:
         if key in self.storage:
             self.storage.pop(key)
         self.storage[key] = "'NULL'" if value == 'NULL' else value
 
-    def unset(self, key):
+    def unset(self, key: str) -> None:
         value = self.storage[key]
         self.storage.pop(key)
 
@@ -32,7 +32,7 @@ class Database:
             return func(args)
         return wrapper 
 
-    def __reverse_storage(self):
+    def __reverse_storage(self) -> dict:
         reversed_storage = {}
         for key, value in self.storage.items():
             if value in reversed_storage:
@@ -48,5 +48,5 @@ class Transaction(Database):
         self.parent = database_obj
         self.storage = database_obj.storage.copy()
 
-    def commit(self):
+    def commit(self) -> None:
         self.parent.storage = self.storage 
