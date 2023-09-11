@@ -13,14 +13,14 @@ class Database:
 
     def get(self, key: str) -> str:
         try:
-            return self.storage[key] 
+            return "'NULL'" if self.storage[key] == 'NULL' else self.storage[key]
         except KeyError:
             return 'NULL'
 
     def set(self, key: str, value: str) -> None:
         if key in self.storage:
             self.storage.pop(key)
-        self.storage[key] = "'NULL'" if value == 'NULL' else value
+        self.storage[key] = value
 
     def unset(self, key: str) -> None:
         value = self.storage[key]
